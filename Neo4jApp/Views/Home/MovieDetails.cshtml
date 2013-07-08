@@ -1,0 +1,38 @@
+﻿@model Neo4jApp.Models.Movie
+
+@{
+    ViewBag.Title = "Movie Details";
+}
+
+<h2>Movie Details</h2>
+
+<fieldset>
+    <legend>Movie</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div class="display-label">
+        Directed By
+    </div>
+    <div class="display-field">
+        @foreach (Neo4jClient.Node<Neo4jApp.Models.Director> director in ViewBag.DirectedBy)
+        {
+            @director.Data.Name <br />
+        }
+    </div>
+</fieldset>
+<p>
+   @* @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -192,7 +192,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\SortUser.cs" />
+    <Compile Include="Models\SortClass.cs" />
+    <Compile Include="Models\Director.cs" />
+    <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\Payloads\Payload.cs" />
+    <Compile Include="Models\Relationships\Directed.cs" />
+    <Compile Include="Models\Relationships\PartOf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DAL\Scaffolding.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -305,6 +315,10 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Home\Directors.cshtml" />
+    <Content Include="Views\Home\Genres.cshtml" />
+    <Content Include="Views\Home\MovieDetails.cshtml" />
+    <Content Include="Views\Home\Movies.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

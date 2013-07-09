@@ -192,6 +192,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Relationships\Attended.cs" />
+    <Compile Include="Models\Relationships\Student.cs" />
     <Compile Include="Models\SortUser.cs" />
     <Compile Include="Models\SortClass.cs" />
     <Compile Include="Models\Director.cs" />
@@ -319,6 +321,10 @@
     <Content Include="Views\Home\Genres.cshtml" />
     <Content Include="Views\Home\MovieDetails.cshtml" />
     <Content Include="Views\Home\Movies.cshtml" />
+    <Content Include="Views\Home\SortClasses.cshtml" />
+    <Content Include="Views\Home\SortUsers.cshtml" />
+    <Content Include="Views\Home\UserDetails.cshtml" />
+    <Content Include="Views\Home\ClassDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

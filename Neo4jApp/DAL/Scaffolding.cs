@@ -28,6 +28,86 @@ namespace Neo4jApp.DAL
         private void CreateNodesRelationshipsIndexes()
         {
             // Create Indexes
+            client.CreateIndex("SortClass", new IndexConfiguration() { Provider = IndexProvider.lucene, Type = IndexType.fulltext }, IndexFor.Node); // full text node index
+            client.CreateIndex("SortUser", new IndexConfiguration() { Provider = IndexProvider.lucene, Type = IndexType.exact }, IndexFor.Node); // exact node index
+
+            // Create Entities
+            // Movies
+            SortClass swI = new SortClass() { Name = "TiddlyWinks", Description = "How to waste one's time" };
+
+            var tiddlywinks = client.Create(swI,
+                new IRelationshipAllowingParticipantNode<SortClass>[0],
+                new[]
+                {
+                    new IndexEntry("SortClass")
+                    {
+                        { "Name", swI.Name },
+                        { "Description", swI.Description },
+                        { "Id", swI.Id.ToString() }
+                    }
+                });
+
+            SortClass swIV = new SortClass() { Name = "Neo4j", Description = "Graph databases for everyone" };
+
+            var neo4j = client.Create(swIV,
+                new IRelationshipAllowingParticipantNode<SortClass>[0],
+                new[]
+                {
+                    new IndexEntry("SortClass")
+                    {
+                        { "Name", swIV.Name },
+                        { "Description", swIV.Description },
+                        { "Id", swIV.Id.ToString() }
+                    }
+                });
+
+
+            // SortUsers
+
+            SortUser joeUser = new SortUser() { Name = "Joe User" };
+
+            var joeUserNode = client.Create(joeUser,
+                new IRelationshipAllowingParticipantNode<SortUser>[0],
+                new[]
+                {
+                    new IndexEntry("SortUser")
+                    {
+                        { "Name", joeUser.Name },
+                        { "Id", joeUser.Id.ToString() }
+                    }
+                });
+
+            SortUser wiltbank = new SortUser() { Name = "Lee Wiltbank" };
+
+            var leeWiltbank = client.Create(wiltbank,
+                new IRelationshipAllowingParticipantNode<SortUser>[0],
+                new[]
+                {
+                    new IndexEntry("SortUser")
+                    {
+                        { "Name", wiltbank.Name },
+                        { "Id", wiltbank.Id.ToString() }
+                    }
+                });
+
+
+            // Create Relationships
+            client.CreateRelationship(joeUserNode, new Attended(tiddlywinks, new Payload() { Comment = "Trying out the new class" }));
+            client.CreateRelationship(joeUserNode, new Attended(neo4j, new Payload() { Comment = "Best of the best" }));
+
+            client.CreateRelationship(leeWiltbank, new Attended(neo4j, new Payload() { Comment = "Better then best" }));
+
+            client.CreateRelationship(tiddlywinks, new Student(joeUserNode, new Payload() { Comment = "Trying out the new student" }));
+
+            client.CreateRelationship(neo4j, new Student(joeUserNode, new Payload() { Comment = "Trying out the new student" }));
+            client.CreateRelationship(neo4j, new Student(leeWiltbank, new Payload() { Comment = "Best of the best" }));
+
+
+        }
+
+        private void CreateMoviesNodesRelationshipsIndexes()
+        {
+            // Create Indexes
             client.CreateIndex("Movie", new IndexConfiguration() { Provider = IndexProvider.lucene, Type = IndexType.fulltext }, IndexFor.Node); // full text node index
             client.CreateIndex("Director", new IndexConfiguration() { Provider = IndexProvider.lucene, Type = IndexType.exact }, IndexFor.Node); // exact node index
             client.CreateIndex("Genre", new IndexConfiguration() { Provider = IndexProvider.lucene, Type = IndexType.fulltext }, IndexFor.Node); // full text node index

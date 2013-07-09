@@ -1,0 +1,38 @@
+﻿@model Neo4jApp.Models.SortClass
+
+@{
+    ViewBag.Title = "Class Details";
+}
+
+<h2>Class Details</h2>
+
+<fieldset>
+    <legend>Class</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div class="display-label">
+        Attended By:
+    </div>
+    <div class="display-field">
+        @foreach (Neo4jClient.Node<Neo4jApp.Models.SortUser> sortUser in ViewBag.AttendedBy)
+        {
+            @sortUser.Data.Name <br />
+        }
+    </div>
+</fieldset>
+<p>
+   @* @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

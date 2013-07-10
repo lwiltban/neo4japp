@@ -8,9 +8,9 @@ namespace Neo4jApp.Models
     /// <summary>
     /// Movie entity - Movie belongs to Genre, Movie directed by Director
     /// </summary>
-    public class Movie : Entity
+    public class SortClass : Entity
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
     }
 }

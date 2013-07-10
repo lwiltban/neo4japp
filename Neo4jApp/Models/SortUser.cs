@@ -10,6 +10,6 @@ namespace Neo4jApp.Models
     /// </summary>
     public class SortUser : Entity
     {
-        public string Name { get; set; }
+        public string name { get; set; }
     }
 }

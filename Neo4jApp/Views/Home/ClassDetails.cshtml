@@ -10,17 +10,17 @@
     <legend>Class</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
+         @Html.DisplayNameFor(model => model.name)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
+        @Html.DisplayFor(model => model.name)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Description)
+         @Html.DisplayNameFor(model => model.description)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Description)
+        @Html.DisplayFor(model => model.description)
     </div>
     <div class="display-label">
         Attended By:
@@ -28,7 +28,7 @@
     <div class="display-field">
         @foreach (Neo4jClient.Node<Neo4jApp.Models.SortUser> sortUser in ViewBag.AttendedBy)
         {
-            @sortUser.Data.Name <br />
+            @sortUser.Data.name <br />
         }
     </div>
 </fieldset>

@@ -24,7 +24,7 @@ namespace Neo4jApp
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //Scaffolding sampleData = new Scaffolding();
+            Scaffolding sampleData = new Scaffolding();
         }
     }
 }

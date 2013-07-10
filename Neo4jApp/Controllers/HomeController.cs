@@ -5,11 +5,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Neo4jClient.Cypher;
 
 namespace Neo4jApp.Controllers
 {
     public class HomeController : Controller
     {
+
+        GraphClient m_Client;
+        GraphClient Client
+        {
+            get
+            {
+                if (m_Client == null)
+                {
+                    m_Client = new GraphClient(new Uri("http://localhost:7474/db/data"));
+                    m_Client.Connect();
+                }
+                return m_Client;
+            }
+        }
         //
         // GET: /Home/
 
@@ -18,86 +33,25 @@ namespace Neo4jApp.Controllers
             return View();
         }
 
-        public ActionResult Movies()
-        {
-            GraphClient client = new GraphClient(new Uri("http://localhost:7474/db/data"));
-            client.Connect();
 
-            // get all movies with any name using index
-            List<Node<Movie>> list = client.QueryIndex<Movie>("Movie", IndexFor.Node, "Name: *").ToList();
-            List<Movie> movies = new List<Movie>();
-            foreach (Node<Movie> movieNode in list)
+        public ActionResult All()
+        {
+            var query = Client.Cypher.Start("n", "node(*)").Return<Node<Entity>>("n");
+
+            var list = query.Results;
+            List<Entity> classes = new List<Entity>();
+            foreach (Node<Entity> node in list)
             {
-                movies.Add(movieNode.Data);
+                classes.Add(node.Data);
             }
-            return View(movies);
-        }
-
-        public ActionResult MovieDetails(string id)
-        {
-            GraphClient client = new GraphClient(new Uri("http://localhost:7474/db/data"));
-            client.Connect();
-
-            Node<Movie> movie = client.QueryIndex<Movie>("Movie", IndexFor.Node, "Id:\"" + id + "\"").FirstOrDefault();
-
-            var directedBy = movie
-                .StartCypher("n")
-                .Match("n<-[r:DIRECTED]-e")
-                .Return<Node<Director>>("e")
-                .Results.ToList();
-
-            ViewBag.DirectedBy = directedBy;
-
-            return View(movie.Data);
-        }
-
-        public ActionResult Directors()
-        {
-            GraphClient client = new GraphClient(new Uri("http://localhost:7474/db/data"));
-            client.Connect();
-
-            // get all director with any name using index
-            List<Node<Director>> list = client.QueryIndex<Director>("Director", IndexFor.Node, "Name: *").ToList();
-            List<Director> directors = new List<Director>();
-            foreach (Node<Director> directorNode in list)
-            {
-                directors.Add(directorNode.Data);
-            }
-            return View(directors);
-        }
-
-        public ActionResult DirectorDetails(string id)
-        {
-            return View();
-        }
-
-        public ActionResult Genres()
-        {
-            GraphClient client = new GraphClient(new Uri("http://localhost:7474/db/data"));
-            client.Connect();
-
-            // get all genres with any name using index
-            List<Node<Genre>> list = client.QueryIndex<Genre>("Genre", IndexFor.Node, "Name: *").ToList();
-            List<Genre> genres = new List<Genre>();
-            foreach (Node<Genre> genreNode in list)
-            {
-                genres.Add(genreNode.Data);
-            }
-            return View(genres);
-        }
-
-        public ActionResult GenreDetails(string id)
-        {
-            return View();
+            return View(classes);
         }
 
         public ActionResult SortClasses()
         {
-            GraphClient client = new GraphClient(new Uri("http://localhost:7474/db/data"));
-            client.Connect();
+            var query = Client.Cypher.Start(new { foo = Node.ByIndexQuery("SortClass", "name: *") }).Return<Node<SortClass>>("*");
 
-            // get all movies with any name using index
-            List<Node<SortClass>> list = client.QueryIndex<SortClass>("SortClass", IndexFor.Node, "Name: *").ToList();
+            var list = query.Results; 
             List<SortClass> classes = new List<SortClass>();
             foreach (Node<SortClass> classNode in list)
             {
@@ -108,10 +62,7 @@ namespace Neo4jApp.Controllers
 
         public ActionResult ClassDetails(string id)
         {
-            GraphClient client = new GraphClient(new Uri("http://localhost:7474/db/data"));
-            client.Connect();
-
-            Node<SortClass> sortClass = client.QueryIndex<SortClass>("SortClass", IndexFor.Node, "Id:\"" + id + "\"").FirstOrDefault();
+            var sortClass = Client.Cypher.Start(new { foo = Node.ByIndexQuery("SortClass", "id: " + id) }).Return<Node<SortClass>>("*").Results.FirstOrDefault();
 
             var attendedBy = sortClass
                 .StartCypher("n")
@@ -126,11 +77,10 @@ namespace Neo4jApp.Controllers
 
         public ActionResult SortUsers()
         {
-            GraphClient client = new GraphClient(new Uri("http://localhost:7474/db/data"));
-            client.Connect();
-
             // get all director with any name using index
-            List<Node<SortUser>> list = client.QueryIndex<SortUser>("SortUser", IndexFor.Node, "Name: *").ToList();
+            var query = Client.Cypher.Start(new { foo = Node.ByIndexQuery("SortUser", "name: *") }).Return<Node<SortUser>>("*");
+            var list = query.Results;
+
             List<SortUser> sortUsers = new List<SortUser>();
             foreach (Node<SortUser> userNode in list)
             {
@@ -141,10 +91,7 @@ namespace Neo4jApp.Controllers
 
         public ActionResult UserDetails(string id)
         {
-            GraphClient client = new GraphClient(new Uri("http://localhost:7474/db/data"));
-            client.Connect();
-
-            Node<SortUser> sortUser = client.QueryIndex<SortUser>("SortUser", IndexFor.Node, "Id:\"" + id + "\"").FirstOrDefault();
+            var sortUser = Client.Cypher.Start(new { foo = Node.ByIndexQuery("SortUser", "id: "+id) }).Return<Node<SortUser>>("*").Results.FirstOrDefault();
 
             var studentIn = sortUser
                 .StartCypher("n")

@@ -13,11 +13,11 @@ namespace Neo4jApp.Models
         /// <summary>
         /// Id automatically generated on construction of an object
         /// </summary>
-        public Guid Id { get; set; }
+        public Guid id { get; set; }
 
         public Entity()
         {
-            Id = Guid.NewGuid();
+            id = Guid.NewGuid();
         }
     }
 }

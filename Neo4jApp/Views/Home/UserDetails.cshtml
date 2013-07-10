@@ -10,10 +10,10 @@
     <legend>User</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
+         @Html.DisplayNameFor(model => model.name)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
+        @Html.DisplayFor(model => model.name)
     </div>
 
     <div class="display-label">
@@ -22,11 +22,10 @@
     <div class="display-field">
         @foreach (Neo4jClient.Node<Neo4jApp.Models.SortClass> sortClass in ViewBag.StudentIn)
         {
-            @sortClass.Data.Name <br />
+            @sortClass.Data.name <br />
         }
     </div>
 </fieldset>
 <p>
-   @* @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |*@
     @Html.ActionLink("Back to List", "Index")
 </p>
